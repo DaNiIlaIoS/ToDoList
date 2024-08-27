@@ -37,7 +37,7 @@ class TodosViewController: UIViewController {
     }
     
     @objc private func createNewTask() {
-        
+        navigationController?.pushViewController(TaskViewController(), animated: true)
     }
     
     private func getTodos() {
