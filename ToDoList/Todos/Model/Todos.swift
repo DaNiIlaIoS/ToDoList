@@ -8,5 +8,5 @@
 import Foundation
 
 struct Todos: Decodable {
-    let todos: [Task]
+    let todos: [ApiTask]
 }

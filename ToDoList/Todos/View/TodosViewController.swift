@@ -9,7 +9,10 @@ import UIKit
 
 class TodosViewController: UIViewController {
     private let networkManager = NetworkManager()
-    private var todos: [Task] = []
+    private let coreManager = CoreDataManager.shared
+    
+//    private let isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch")
+    
     // MARK: - GUI Variables
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: view.frame)
@@ -22,8 +25,9 @@ class TodosViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
-        getTodos()
+        getTasks()
     }
     
     // MARK: - Private Methods
@@ -37,36 +41,47 @@ class TodosViewController: UIViewController {
     }
     
     @objc private func createNewTask() {
-        navigationController?.pushViewController(TaskViewController(), animated: true)
+//        navigationController?.pushViewController(TaskViewController(), animated: true)
+        coreManager.createTask(title: "Title", text: "")
+        tableView.reloadData()
     }
     
-    private func getTodos() {
-        networkManager.getTodos { [weak self] result in
-            switch result {
-            case .success(let todos):
-                DispatchQueue.main.async {
-                    self?.todos = todos
-                    self?.tableView.reloadData()
+    private func getTasks() {
+        let isFirstLaunch = !UserDefaults.standard.bool(forKey: "isFirstLaunch")
+        
+        if isFirstLaunch {
+            networkManager.getTodos { [weak self] result in
+                switch result {
+                case .success(let tasks):
+                    DispatchQueue.main.async {
+                        self?.coreManager.saveApiTasks(tasks)
+                        self?.tableView.reloadData()
+                        
+                        UserDefaults.standard.set(true, forKey: "isFirstLaunch")
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
             }
+        } else {
+            coreManager.fetchTask()
         }
     }
 }
 
 extension TodosViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        todos.count
+        coreManager.tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let task = todos[indexPath.row]
+        let task = coreManager.tasks[indexPath.row]
         
         var config = cell.defaultContentConfiguration()
-        config.text = task.todo
-        config.image = UIImage(systemName: task.completed ? "checkmark.circle.fill" : "circlebadge")
+        config.text = task.title
+        config.secondaryText = task.date?.formateDate()
+        config.image = UIImage(systemName: task.isCompleted ? "checkmark.circle.fill" : "circlebadge")
         cell.contentConfiguration = config
         
         return cell
@@ -74,5 +89,16 @@ extension TodosViewController: UITableViewDataSource {
 }
 
 extension TodosViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let task = coreManager.tasks[indexPath.row]
+        
+    }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            coreManager.tasks[indexPath.row].deleteTask()
+            coreManager.tasks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
 }

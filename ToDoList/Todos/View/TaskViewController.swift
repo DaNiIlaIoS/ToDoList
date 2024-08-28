@@ -8,7 +8,7 @@
 import UIKit
 
 final class TaskViewController: UIViewController {
-    
+    // MARK: - GUI Variables
     private lazy var titleTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Title"
@@ -19,7 +19,7 @@ final class TaskViewController: UIViewController {
     
     private lazy var descriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.text = placeholder
+        textView.text = "Write description for note"
         textView.textColor = .systemGray3
         textView.font = .systemFont(ofSize: 16)
         textView.layer.borderColor = UIColor.systemGray6.cgColor
@@ -40,8 +40,7 @@ final class TaskViewController: UIViewController {
 
     }
     
-    var placeholder = "Write description for note"
-    
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
