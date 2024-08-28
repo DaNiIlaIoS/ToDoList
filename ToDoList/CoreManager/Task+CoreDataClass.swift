@@ -40,7 +40,7 @@ extension Task : Identifiable {
         }
     }
     
-    func updateTask(title: String, text: String) {
+    func updateTask(title: String, text: String?) {
         self.title = title
         self.text = text
         
