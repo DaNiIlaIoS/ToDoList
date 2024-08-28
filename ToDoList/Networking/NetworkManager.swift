@@ -8,7 +8,7 @@
 import Foundation
 
 final class NetworkManager {
-    func getTodos(completion: @escaping (Result<[Task], Error>) -> ()) {
+    func getTodos(completion: @escaping (Result<[ApiTask], Error>) -> ()) {
         guard let url = URL(string: "https://dummyjson.com/todos") else { return }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
