@@ -22,6 +22,7 @@
 		4888993E2C7F10AA00672CCD /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888993D2C7F10AA00672CCD /* CoreDataManager.swift */; };
 		488899412C7F2A4E00672CCD /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899402C7F2A4E00672CCD /* Date+Ex.swift */; };
 		488899432C7F2E8D00672CCD /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899422C7F2E8D00672CCD /* TaskCell.swift */; };
+		488899452C7F33AA00672CCD /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899442C7F33AA00672CCD /* CustomLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		4888993D2C7F10AA00672CCD /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		488899402C7F2A4E00672CCD /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		488899422C7F2E8D00672CCD /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
+		488899442C7F33AA00672CCD /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				488899372C7E37B800672CCD /* CustomButton.swift */,
+				488899442C7F33AA00672CCD /* CustomLabel.swift */,
 			);
 			path = CustonUI;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				488899322C7E2E6800672CCD /* Todos.swift in Sources */,
 				488899302C7E2AF400672CCD /* NetworkManager.swift in Sources */,
 				488899382C7E37B800672CCD /* CustomButton.swift in Sources */,
+				488899452C7F33AA00672CCD /* CustomLabel.swift in Sources */,
 				488899162C7E28CF00672CCD /* TodosViewController.swift in Sources */,
 				488899122C7E28CF00672CCD /* AppDelegate.swift in Sources */,
 				488899142C7E28CF00672CCD /* SceneDelegate.swift in Sources */,
