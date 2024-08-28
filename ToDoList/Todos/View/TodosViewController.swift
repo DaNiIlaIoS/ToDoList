@@ -16,9 +16,10 @@ class TodosViewController: UIViewController {
     // MARK: - GUI Variables
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: view.frame)
+        tableView.rowHeight = 60
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.reuseId)
         return tableView
     }()
     
@@ -28,6 +29,11 @@ class TodosViewController: UIViewController {
         
         setupUI()
         getTasks()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     // MARK: - Private Methods
@@ -41,9 +47,7 @@ class TodosViewController: UIViewController {
     }
     
     @objc private func createNewTask() {
-//        navigationController?.pushViewController(TaskViewController(), animated: true)
-        coreManager.createTask(title: "Title", text: "")
-        tableView.reloadData()
+        navigationController?.pushViewController(TaskViewController(), animated: true)
     }
     
     private func getTasks() {
@@ -75,14 +79,14 @@ extension TodosViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.reuseId, for: indexPath) as? TaskCell else { return UITableViewCell() }
         let task = coreManager.tasks[indexPath.row]
         
-        var config = cell.defaultContentConfiguration()
-        config.text = task.title
-        config.secondaryText = task.date?.formateDate()
-        config.image = UIImage(systemName: task.isCompleted ? "checkmark.circle.fill" : "circlebadge")
-        cell.contentConfiguration = config
+        cell.configureCell(task: task)
+        cell.toggleCompletion = {
+            task.toggleCompleted()
+            tableView.reloadData()
+        }
         
         return cell
     }
@@ -91,6 +95,8 @@ extension TodosViewController: UITableViewDataSource {
 extension TodosViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let task = coreManager.tasks[indexPath.row]
+        let taskVC = TaskViewController()
+        navigationController?.pushViewController(taskVC, animated: true)
         
     }
     

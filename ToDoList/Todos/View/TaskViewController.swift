@@ -12,6 +12,7 @@ final class TaskViewController: UIViewController {
     private lazy var titleTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Title"
+        textField.delegate = self
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -19,6 +20,7 @@ final class TaskViewController: UIViewController {
     
     private lazy var descriptionTextView: UITextView = {
         let textView = UITextView()
+        textView.delegate = self
         textView.text = "Write description for note"
         textView.textColor = .systemGray3
         textView.font = .systemFont(ofSize: 16)
@@ -32,13 +34,8 @@ final class TaskViewController: UIViewController {
     private lazy var saveButton = CustomButton(title: "Сохранить", action: saveAction)
     private lazy var updateButton = CustomButton(title: "Обновить", action: updateAction)
     
-    private lazy var saveAction = UIAction { [weak self] _ in
-        self?.navigationController?.popViewController(animated: true)
-    }
-    
-    private lazy var updateAction = UIAction { [weak self] _ in
-
-    }
+    // MARK: - Properties
+    private let coreManager = CoreDataManager.shared
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -47,7 +44,24 @@ final class TaskViewController: UIViewController {
         setupUI()
         configureUIForNote()
         
-        descriptionTextView.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    // MARK: - Methods
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
+    private lazy var saveAction = UIAction { [weak self] _ in
+        guard let title = self?.titleTextField.text, !title.isEmpty else { return }
+        
+        self?.coreManager.createTask(title: title, text: self?.descriptionTextView.text)
+        self?.navigationController?.popViewController(animated: true)
+    }
+    
+    private lazy var updateAction = UIAction { [weak self] _ in
+
     }
     
     private func configureUIForNote() {
@@ -74,13 +88,22 @@ final class TaskViewController: UIViewController {
             descriptionTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             descriptionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            saveButton.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -10),
             saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             saveButton.heightAnchor.constraint(equalToConstant: 50),
             
             descriptionTextView.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -20),
         ])
+    }
+}
+
+extension TaskViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if titleTextField.isFirstResponder {
+            descriptionTextView.becomeFirstResponder()
+        }
+        return true
     }
 }
 

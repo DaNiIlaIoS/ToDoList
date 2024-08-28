@@ -30,6 +30,16 @@ extension Task {
 }
 
 extension Task : Identifiable {
+    func toggleCompleted() {
+        self.isCompleted.toggle()
+        
+        do {
+            try managedObjectContext?.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     func updateTask(title: String, text: String) {
         self.title = title
         self.text = text
