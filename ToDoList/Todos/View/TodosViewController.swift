@@ -8,11 +8,6 @@
 import UIKit
 
 class TodosViewController: UIViewController {
-    private let networkManager = NetworkManager()
-    private let coreManager = CoreDataManager.shared
-    
-//    private let isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch")
-    
     // MARK: - GUI Variables
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: view.frame)
@@ -22,6 +17,10 @@ class TodosViewController: UIViewController {
         tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.reuseId)
         return tableView
     }()
+    
+    // MARK: - Properties
+    private let networkManager = NetworkManager()
+    private let coreManager = CoreDataManager.shared
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -96,8 +95,8 @@ extension TodosViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let task = coreManager.tasks[indexPath.row]
         let taskVC = TaskViewController()
+        taskVC.task = task
         navigationController?.pushViewController(taskVC, animated: true)
-        
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -106,5 +105,10 @@ extension TodosViewController: UITableViewDelegate {
             coreManager.tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        return true
     }
 }
