@@ -7,7 +7,11 @@
 
 import UIKit
 
-final class TaskViewController: UIViewController {
+protocol TaskViewProtocol: AnyObject {
+    
+}
+
+final class TaskViewController: UIViewController, TaskViewProtocol {
     // MARK: - GUI Variables
     private lazy var titleTextField: UITextField = {
         let textField = UITextField()
@@ -37,8 +41,7 @@ final class TaskViewController: UIViewController {
     private lazy var updateButton = CustomButton(title: "Обновить", action: updateAction)
     
     // MARK: - Properties
-    private let coreManager = CoreDataManager.shared
-    var task: Task?
+    var presenter: TaskPresenterProtocol?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -59,19 +62,19 @@ final class TaskViewController: UIViewController {
     private lazy var saveAction = UIAction { [weak self] _ in
         guard let title = self?.titleTextField.text, !title.isEmpty else { return }
         
-        self?.coreManager.createTask(title: title, text: self?.descriptionTextView.text)
-        self?.navigationController?.popViewController(animated: true)
+        self?.presenter?.createNewTask(title: title, text: self?.descriptionTextView.text)
+        self?.presenter?.popVC()
     }
     
     private lazy var updateAction = UIAction { [weak self] _ in
         guard let title = self?.titleTextField.text, !title.isEmpty else { return }
         
-        self?.task?.updateTask(title: title, text: self?.descriptionTextView.text)
-        self?.navigationController?.popViewController(animated: true)
+        self?.presenter?.updateTask(title: title, text: self?.descriptionTextView.text)
+        self?.presenter?.popVC()
     }
     
     private func configTask() {
-        guard let task = task else {
+        guard let task = presenter?.getTask() else {
             updateButton.isHidden = true
             return
         }
@@ -93,7 +96,7 @@ final class TaskViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        let button = task == nil ? saveButton : updateButton
+        let button = presenter?.getTask() == nil ? saveButton : updateButton
         NSLayoutConstraint.activate([
             titleTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
