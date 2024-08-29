@@ -23,6 +23,14 @@
 		488899412C7F2A4E00672CCD /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899402C7F2A4E00672CCD /* Date+Ex.swift */; };
 		488899432C7F2E8D00672CCD /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899422C7F2E8D00672CCD /* TaskCell.swift */; };
 		488899452C7F33AA00672CCD /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899442C7F33AA00672CCD /* CustomLabel.swift */; };
+		4888994A2C80B6F600672CCD /* TodosPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899492C80B6F600672CCD /* TodosPresenter.swift */; };
+		4888994C2C80B77000672CCD /* TodosRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888994B2C80B77000672CCD /* TodosRouter.swift */; };
+		4888994E2C80B7C000672CCD /* TodosInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888994D2C80B7C000672CCD /* TodosInteractor.swift */; };
+		488899512C80B9A000672CCD /* TodosModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899502C80B9A000672CCD /* TodosModuleBuilder.swift */; };
+		488899532C80DBA700672CCD /* TaskInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899522C80DBA700672CCD /* TaskInteractor.swift */; };
+		488899552C80DBB400672CCD /* TaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899542C80DBB400672CCD /* TaskPresenter.swift */; };
+		488899572C80DBC100672CCD /* TaskRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899562C80DBC100672CCD /* TaskRouter.swift */; };
+		488899592C80DBCF00672CCD /* TaskModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899582C80DBCF00672CCD /* TaskModuleBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +52,14 @@
 		488899402C7F2A4E00672CCD /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		488899422C7F2E8D00672CCD /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		488899442C7F33AA00672CCD /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		488899492C80B6F600672CCD /* TodosPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosPresenter.swift; sourceTree = "<group>"; };
+		4888994B2C80B77000672CCD /* TodosRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosRouter.swift; sourceTree = "<group>"; };
+		4888994D2C80B7C000672CCD /* TodosInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosInteractor.swift; sourceTree = "<group>"; };
+		488899502C80B9A000672CCD /* TodosModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosModuleBuilder.swift; sourceTree = "<group>"; };
+		488899522C80DBA700672CCD /* TaskInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInteractor.swift; sourceTree = "<group>"; };
+		488899542C80DBB400672CCD /* TaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPresenter.swift; sourceTree = "<group>"; };
+		488899562C80DBC100672CCD /* TaskRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouter.swift; sourceTree = "<group>"; };
+		488899582C80DBCF00672CCD /* TaskModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModuleBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,8 +109,11 @@
 		488899282C7E2A4F00672CCD /* Todos */ = {
 			isa = PBXGroup;
 			children = (
-				4888992A2C7E2A7100672CCD /* Model */,
 				488899292C7E2A6B00672CCD /* View */,
+				488899472C7F7F6D00672CCD /* Interactor */,
+				488899482C7F7F8700672CCD /* Presenter */,
+				488899462C7F7F6600672CCD /* Router */,
+				4888994F2C80B96E00672CCD /* ModeluBuilder */,
 			);
 			path = Todos;
 			sourceTree = "<group>";
@@ -130,6 +149,7 @@
 		4888992E2C7E2AE400672CCD /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				4888992A2C7E2A7100672CCD /* Model */,
 				4888992F2C7E2AF400672CCD /* NetworkManager.swift */,
 			);
 			path = Networking;
@@ -159,6 +179,42 @@
 				488899402C7F2A4E00672CCD /* Date+Ex.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		488899462C7F7F6600672CCD /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				4888994B2C80B77000672CCD /* TodosRouter.swift */,
+				488899562C80DBC100672CCD /* TaskRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		488899472C7F7F6D00672CCD /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				4888994D2C80B7C000672CCD /* TodosInteractor.swift */,
+				488899522C80DBA700672CCD /* TaskInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		488899482C7F7F8700672CCD /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				488899492C80B6F600672CCD /* TodosPresenter.swift */,
+				488899542C80DBB400672CCD /* TaskPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		4888994F2C80B96E00672CCD /* ModeluBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				488899502C80B9A000672CCD /* TodosModuleBuilder.swift */,
+				488899582C80DBCF00672CCD /* TaskModuleBuilder.swift */,
+			);
+			path = ModeluBuilder;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,15 +287,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				488899572C80DBC100672CCD /* TaskRouter.swift in Sources */,
+				488899532C80DBA700672CCD /* TaskInteractor.swift in Sources */,
 				488899322C7E2E6800672CCD /* Todos.swift in Sources */,
 				488899302C7E2AF400672CCD /* NetworkManager.swift in Sources */,
+				4888994A2C80B6F600672CCD /* TodosPresenter.swift in Sources */,
 				488899382C7E37B800672CCD /* CustomButton.swift in Sources */,
 				488899452C7F33AA00672CCD /* CustomLabel.swift in Sources */,
 				488899162C7E28CF00672CCD /* TodosViewController.swift in Sources */,
+				4888994C2C80B77000672CCD /* TodosRouter.swift in Sources */,
+				488899512C80B9A000672CCD /* TodosModuleBuilder.swift in Sources */,
 				488899122C7E28CF00672CCD /* AppDelegate.swift in Sources */,
+				4888994E2C80B7C000672CCD /* TodosInteractor.swift in Sources */,
 				488899142C7E28CF00672CCD /* SceneDelegate.swift in Sources */,
 				488899412C7F2A4E00672CCD /* Date+Ex.swift in Sources */,
+				488899552C80DBB400672CCD /* TaskPresenter.swift in Sources */,
 				488899352C7E336500672CCD /* TaskViewController.swift in Sources */,
+				488899592C80DBCF00672CCD /* TaskModuleBuilder.swift in Sources */,
 				4888992C2C7E2A7900672CCD /* ApiTask.swift in Sources */,
 				4888993B2C7F0FD500672CCD /* Task+CoreDataClass.swift in Sources */,
 				4888991C2C7E28CF00672CCD /* ToDoList.xcdatamodeld in Sources */,
