@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol TaskCellViewProtocol: AnyObject {
+    func configureCell(title: String?, text: String?, isCompleted: Bool, date: Date?)
+}
+
 final class TaskCell: UITableViewCell {
     // MARK: - GUI Variables
     private lazy var completedButton: UIButton = {
@@ -22,7 +26,8 @@ final class TaskCell: UITableViewCell {
     }()
     
     @objc func completionButtonAction() {
-        toggleCompletion?()
+        presenter?.toggleCompletion()
+        delegate?.reloadData()
     }
     
     private lazy var titleLabel = CustomLabel(size: .systemFont(ofSize: 19, weight: .bold), color: .black)
@@ -58,7 +63,8 @@ final class TaskCell: UITableViewCell {
     
     // MARK: - Properties
     static let reuseId = "TaskCell"
-    var toggleCompletion: (() -> Void)?
+    var presenter: TaskCellPresenterProtocol?
+    var delegate: TodosViewProtocol?
     
     // MARK: - Life Cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -71,14 +77,6 @@ final class TaskCell: UITableViewCell {
     }
     
     // MARK: - Methods
-    func configureCell(task: Task) {
-        titleLabel.text = task.title
-        dateLabel.text = task.date?.formateDate()
-        descriptionLabel.text = task.text
-        
-        completedButton.setImage(UIImage(systemName: task.isCompleted ? "checkmark.circle.fill" : "circlebadge"), for: .normal)
-    }
-    
     private func setupCell() {
         contentView.addSubview(completedButton)
         contentView.addSubview(vStack)
@@ -100,5 +98,15 @@ final class TaskCell: UITableViewCell {
             vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             vStack.leadingAnchor.constraint(equalTo: completedButton.trailingAnchor, constant: 5),
         ])
+    }
+}
+
+extension TaskCell: TaskCellViewProtocol {
+    func configureCell(title: String?, text: String?, isCompleted: Bool, date: Date?) {
+        titleLabel.text = title
+        dateLabel.text = date?.formateDate()
+        descriptionLabel.text = text
+        
+        completedButton.setImage(UIImage(systemName: isCompleted ? "checkmark.circle.fill" : "circlebadge"), for: .normal)
     }
 }

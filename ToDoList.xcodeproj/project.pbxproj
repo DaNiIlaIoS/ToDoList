@@ -31,6 +31,9 @@
 		488899552C80DBB400672CCD /* TaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899542C80DBB400672CCD /* TaskPresenter.swift */; };
 		488899572C80DBC100672CCD /* TaskRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899562C80DBC100672CCD /* TaskRouter.swift */; };
 		488899592C80DBCF00672CCD /* TaskModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899582C80DBCF00672CCD /* TaskModuleBuilder.swift */; };
+		4888995B2C80E5DB00672CCD /* TaskCellInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888995A2C80E5DB00672CCD /* TaskCellInteractor.swift */; };
+		4888995D2C80E5EB00672CCD /* TaskCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888995C2C80E5EB00672CCD /* TaskCellPresenter.swift */; };
+		4888995F2C80E7FB00672CCD /* TaskCellModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888995E2C80E7FB00672CCD /* TaskCellModuleBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +63,9 @@
 		488899542C80DBB400672CCD /* TaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPresenter.swift; sourceTree = "<group>"; };
 		488899562C80DBC100672CCD /* TaskRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouter.swift; sourceTree = "<group>"; };
 		488899582C80DBCF00672CCD /* TaskModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModuleBuilder.swift; sourceTree = "<group>"; };
+		4888995A2C80E5DB00672CCD /* TaskCellInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellInteractor.swift; sourceTree = "<group>"; };
+		4888995C2C80E5EB00672CCD /* TaskCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellPresenter.swift; sourceTree = "<group>"; };
+		4888995E2C80E7FB00672CCD /* TaskCellModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellModuleBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +201,7 @@
 			children = (
 				4888994D2C80B7C000672CCD /* TodosInteractor.swift */,
 				488899522C80DBA700672CCD /* TaskInteractor.swift */,
+				4888995A2C80E5DB00672CCD /* TaskCellInteractor.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -204,6 +211,7 @@
 			children = (
 				488899492C80B6F600672CCD /* TodosPresenter.swift */,
 				488899542C80DBB400672CCD /* TaskPresenter.swift */,
+				4888995C2C80E5EB00672CCD /* TaskCellPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -213,6 +221,7 @@
 			children = (
 				488899502C80B9A000672CCD /* TodosModuleBuilder.swift */,
 				488899582C80DBCF00672CCD /* TaskModuleBuilder.swift */,
+				4888995E2C80E7FB00672CCD /* TaskCellModuleBuilder.swift */,
 			);
 			path = ModeluBuilder;
 			sourceTree = "<group>";
@@ -295,6 +304,7 @@
 				488899382C7E37B800672CCD /* CustomButton.swift in Sources */,
 				488899452C7F33AA00672CCD /* CustomLabel.swift in Sources */,
 				488899162C7E28CF00672CCD /* TodosViewController.swift in Sources */,
+				4888995B2C80E5DB00672CCD /* TaskCellInteractor.swift in Sources */,
 				4888994C2C80B77000672CCD /* TodosRouter.swift in Sources */,
 				488899512C80B9A000672CCD /* TodosModuleBuilder.swift in Sources */,
 				488899122C7E28CF00672CCD /* AppDelegate.swift in Sources */,
@@ -307,6 +317,8 @@
 				4888992C2C7E2A7900672CCD /* ApiTask.swift in Sources */,
 				4888993B2C7F0FD500672CCD /* Task+CoreDataClass.swift in Sources */,
 				4888991C2C7E28CF00672CCD /* ToDoList.xcdatamodeld in Sources */,
+				4888995D2C80E5EB00672CCD /* TaskCellPresenter.swift in Sources */,
+				4888995F2C80E7FB00672CCD /* TaskCellModuleBuilder.swift in Sources */,
 				488899432C7F2E8D00672CCD /* TaskCell.swift in Sources */,
 				4888993E2C7F10AA00672CCD /* CoreDataManager.swift in Sources */,
 			);

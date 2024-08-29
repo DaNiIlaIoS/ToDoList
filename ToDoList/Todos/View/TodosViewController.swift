@@ -11,7 +11,7 @@ protocol TodosViewProtocol: AnyObject {
     func reloadData()
 }
 
-class TodosViewController: UIViewController {
+final class TodosViewController: UIViewController {
     // MARK: - GUI Variables
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: view.frame)
@@ -67,11 +67,13 @@ extension TodosViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.reuseId, for: indexPath) as? TaskCell else { return UITableViewCell() }
         if let task = presenter?.didFetchTasks()[indexPath.row] {
-            cell.configureCell(task: task)
-            cell.toggleCompletion = {
-                task.toggleCompleted()
-                tableView.reloadData()
-            }
+            
+            let interactor = TaskCellInteractor(taskData: task)
+            let presenter = TaskCellPresenter(view: cell, interactor: interactor)
+            cell.presenter = presenter
+            cell.delegate = self
+            
+            presenter.configureCell(taskData: task)
         }
         
         return cell
