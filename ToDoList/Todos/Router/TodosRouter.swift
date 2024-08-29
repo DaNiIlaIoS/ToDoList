@@ -15,7 +15,7 @@ final class TodosRouter: TodosRouterProtocol {
     weak var view: TodosViewController?
     
     func openTaskVC(task: Task?) {
-        let viewController = TaskViewController()
+        let viewController = TaskModuleBuilder.buildModule(task: task)
         view?.navigationController?.pushViewController(viewController, animated: true)
     }
 }
