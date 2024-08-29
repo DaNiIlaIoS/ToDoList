@@ -7,7 +7,11 @@
 
 import UIKit
 
-class TodosViewController: UIViewController {
+protocol TodosViewProtocol: AnyObject {
+    func reloadData()
+}
+
+final class TodosViewController: UIViewController {
     // MARK: - GUI Variables
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: view.frame)
@@ -19,15 +23,14 @@ class TodosViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    private let networkManager = NetworkManager()
-    private let coreManager = CoreDataManager.shared
+    var presenter: TodosPresenterProtocol?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
-        getTasks()
+        presenter?.viewDidLoaded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,45 +49,31 @@ class TodosViewController: UIViewController {
     }
     
     @objc private func createNewTask() {
-        navigationController?.pushViewController(TaskViewController(), animated: true)
+        presenter?.showTaskVC(task: nil)
     }
-    
-    private func getTasks() {
-        let isFirstLaunch = !UserDefaults.standard.bool(forKey: "isFirstLaunch")
-        
-        if isFirstLaunch {
-            networkManager.getTodos { [weak self] result in
-                switch result {
-                case .success(let tasks):
-                    DispatchQueue.main.async {
-                        self?.coreManager.saveApiTasks(tasks)
-                        self?.tableView.reloadData()
-                        
-                        UserDefaults.standard.set(true, forKey: "isFirstLaunch")
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        } else {
-            coreManager.fetchTask()
-        }
+}
+
+extension TodosViewController: TodosViewProtocol {
+    func reloadData() {
+        tableView.reloadData()
     }
 }
 
 extension TodosViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        coreManager.tasks.count
+        presenter?.didFetchTasks().count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.reuseId, for: indexPath) as? TaskCell else { return UITableViewCell() }
-        let task = coreManager.tasks[indexPath.row]
-        
-        cell.configureCell(task: task)
-        cell.toggleCompletion = {
-            task.toggleCompleted()
-            tableView.reloadData()
+        if let task = presenter?.didFetchTasks()[indexPath.row] {
+            
+            let interactor = TaskCellInteractor(taskData: task)
+            let presenter = TaskCellPresenter(view: cell, interactor: interactor)
+            cell.presenter = presenter
+            cell.delegate = self
+            
+            presenter.configureCell(taskData: task)
         }
         
         return cell
@@ -93,22 +82,14 @@ extension TodosViewController: UITableViewDataSource {
 
 extension TodosViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let task = coreManager.tasks[indexPath.row]
-        let taskVC = TaskViewController()
-        taskVC.task = task
-        navigationController?.pushViewController(taskVC, animated: true)
+        let task = presenter?.didFetchTasks()[indexPath.row]
+        presenter?.showTaskVC(task: task)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            coreManager.tasks[indexPath.row].deleteTask()
-            coreManager.tasks.remove(at: indexPath.row)
+            presenter?.deleteTask(at: indexPath)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        
-        return true
     }
 }
