@@ -33,7 +33,6 @@
 		488899592C80DBCF00672CCD /* TaskModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899582C80DBCF00672CCD /* TaskModuleBuilder.swift */; };
 		4888995B2C80E5DB00672CCD /* TaskCellInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888995A2C80E5DB00672CCD /* TaskCellInteractor.swift */; };
 		4888995D2C80E5EB00672CCD /* TaskCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888995C2C80E5EB00672CCD /* TaskCellPresenter.swift */; };
-		4888995F2C80E7FB00672CCD /* TaskCellModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888995E2C80E7FB00672CCD /* TaskCellModuleBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,7 +64,6 @@
 		488899582C80DBCF00672CCD /* TaskModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModuleBuilder.swift; sourceTree = "<group>"; };
 		4888995A2C80E5DB00672CCD /* TaskCellInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellInteractor.swift; sourceTree = "<group>"; };
 		4888995C2C80E5EB00672CCD /* TaskCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellPresenter.swift; sourceTree = "<group>"; };
-		4888995E2C80E7FB00672CCD /* TaskCellModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellModuleBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +219,6 @@
 			children = (
 				488899502C80B9A000672CCD /* TodosModuleBuilder.swift */,
 				488899582C80DBCF00672CCD /* TaskModuleBuilder.swift */,
-				4888995E2C80E7FB00672CCD /* TaskCellModuleBuilder.swift */,
 			);
 			path = ModeluBuilder;
 			sourceTree = "<group>";
@@ -318,7 +315,6 @@
 				4888993B2C7F0FD500672CCD /* Task+CoreDataClass.swift in Sources */,
 				4888991C2C7E28CF00672CCD /* ToDoList.xcdatamodeld in Sources */,
 				4888995D2C80E5EB00672CCD /* TaskCellPresenter.swift in Sources */,
-				4888995F2C80E7FB00672CCD /* TaskCellModuleBuilder.swift in Sources */,
 				488899432C7F2E8D00672CCD /* TaskCell.swift in Sources */,
 				4888993E2C7F10AA00672CCD /* CoreDataManager.swift in Sources */,
 			);
