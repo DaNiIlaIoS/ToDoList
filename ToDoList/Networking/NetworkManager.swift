@@ -7,7 +7,11 @@
 
 import Foundation
 
-final class NetworkManager {
+protocol NetworkManagerProtocol: AnyObject {
+    func getTodos(completion: @escaping (Result<[ApiTask], Error>) -> ())
+}
+
+final class NetworkManager: NetworkManagerProtocol {
     func getTodos(completion: @escaping (Result<[ApiTask], Error>) -> ()) {
         guard let url = URL(string: "https://dummyjson.com/todos") else { return }
         

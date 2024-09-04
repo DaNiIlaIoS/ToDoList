@@ -15,12 +15,13 @@ protocol TaskInteractorProtocol: AnyObject {
 }
 
 final class TaskInteractor: TaskInteractorProtocol {
-    let coreManager = CoreDataManager.shared
+    private let coreManager: CoreDataManagerProtocol
     
     weak var presenter: TaskPresenterProtocol?
     var task: Task?
     
-    init(task: Task? = nil) {
+    init(coreManager: CoreDataManagerProtocol, task: Task? = nil) {
+        self.coreManager = coreManager
         self.task = task
     }
     

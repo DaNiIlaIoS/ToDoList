@@ -8,18 +8,23 @@
 import Foundation
 
 protocol TodosInteractorProtocol: AnyObject {
-    var coreManager: CoreDataManager { get }
+    var coreManager: CoreDataManagerProtocol { get }
     
     func getTasks()
     func deleteTask(at index: Int)
 }
 
 final class TodosInteractor: TodosInteractorProtocol {
-    private let networkManager = NetworkManager()
-    let coreManager = CoreDataManager.shared
+    private let networkManager: NetworkManagerProtocol
+    var coreManager: CoreDataManagerProtocol
     
     weak var presenter: TodosPresenterProtocol?
-
+    
+    init(networkManager: NetworkManagerProtocol, coreManager: CoreDataManagerProtocol) {
+        self.networkManager = networkManager
+        self.coreManager = coreManager
+    }
+    
     func getTasks() {
         let isFirstLaunch = !UserDefaults.standard.bool(forKey: "isFirstLaunch")
         

@@ -8,7 +8,15 @@
 import Foundation
 import CoreData
 
-final class CoreDataManager {
+protocol CoreDataManagerProtocol: AnyObject {
+    var tasks: [Task] { get set }
+    
+    func fetchTask()
+    func saveApiTasks(_ apiTasks: [ApiTask])
+    func createTask(title: String, text: String?)
+}
+
+final class CoreDataManager: CoreDataManagerProtocol {
     static let shared = CoreDataManager()
     private init() {}
     
@@ -30,7 +38,7 @@ final class CoreDataManager {
     }()
 
     // MARK: - Core Data Saving support
-    func saveContext () {
+    func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
