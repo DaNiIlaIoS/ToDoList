@@ -34,7 +34,6 @@ final class TodosInteractor: TodosInteractorProtocol {
                 case .success(let tasks):
                     DispatchQueue.main.async {
                         self?.coreManager.saveApiTasks(tasks)  
-                        self?.presenter?.reloadData()
                         
                         UserDefaults.standard.set(true, forKey: "isFirstLaunch")
                     }

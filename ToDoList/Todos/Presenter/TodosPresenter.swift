@@ -11,7 +11,6 @@ protocol TodosPresenterProtocol: AnyObject {
     func viewDidLoaded()
     func didFetchTasks() -> [Task]
     func deleteTask(at indexPath: IndexPath)
-    func reloadData()
     func showTaskVC(task: Task?)
 }
 
@@ -30,6 +29,7 @@ final class TodosPresenter {
 extension TodosPresenter: TodosPresenterProtocol {
     func viewDidLoaded() {
         interactor.getTasks()
+        view?.reloadData()
     }
     func didFetchTasks() -> [Task] {
         return interactor.coreManager.tasks
@@ -37,10 +37,6 @@ extension TodosPresenter: TodosPresenterProtocol {
     
     func deleteTask(at indexPath: IndexPath) {
         interactor.deleteTask(at: indexPath.row)
-    }
-    
-    func reloadData() {
-        view?.reloadData()
     }
     
     func showTaskVC(task: Task?) {
