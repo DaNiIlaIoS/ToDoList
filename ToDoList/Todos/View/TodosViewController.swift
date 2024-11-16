@@ -42,7 +42,7 @@ final class TodosViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print(#function)
         reloadData()
     }
     
