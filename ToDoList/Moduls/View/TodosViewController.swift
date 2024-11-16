@@ -9,6 +9,7 @@ import UIKit
 
 protocol TodosViewProtocol: AnyObject {
     func reloadData()
+    func updateBottomBarCount()
 }
 
 final class TodosViewController: UIViewController {
@@ -42,8 +43,8 @@ final class TodosViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(#function)
-        reloadData()
+        
+        presenter?.fetchTasks()
     }
     
     // MARK: - Private Methods
@@ -56,6 +57,7 @@ final class TodosViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(bottomBar)
         
+        hideKeyboardWhenTapped()
         setupConstraints()
         setupBottomBar()
     }
@@ -84,15 +86,9 @@ final class TodosViewController: UIViewController {
     
     private func setupBottomBar() {
         bottomBar.addButton.addTarget(self, action: #selector(createNewTask), for: .touchUpInside)
-        updateBottomBarCount()
     }
     
-    private func updateBottomBarCount() {
-        let count = presenter?.allTasks.count ?? 0
-        bottomBar.updateCount(count)
-    }
-    
-    // MARK: - Actions
+    // MARK: - Actions    
     @objc private func createNewTask() {
         presenter?.showTaskVC(task: nil)
     }
@@ -102,7 +98,12 @@ final class TodosViewController: UIViewController {
 extension TodosViewController: TodosViewProtocol {
     func reloadData() {
         tableView.reloadData()
-        updateBottomBarCount()
+//        updateBottomBarCount()
+    }
+    
+    func updateBottomBarCount() {
+        let count = presenter?.allTasks.count ?? 0
+        bottomBar.updateCount(count)
     }
 }
 
@@ -139,7 +140,7 @@ extension TodosViewController: UITableViewDelegate {
         if editingStyle == .delete {
             presenter?.deleteTask(at: indexPath)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            updateBottomBarCount()
+            presenter?.fetchTasks()
         }
     }
     
@@ -162,6 +163,7 @@ extension TodosViewController: UITableViewDelegate {
             let deleteAction = UIAction(title: "Удалить", image: UIImage(systemName: "trash"), attributes: .destructive) { [weak self] _ in
                 self?.presenter?.deleteTask(at: indexPath)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
+                self?.presenter?.fetchTasks()
             }
             
             return UIMenu(title: "", children: [shareAction, editAction, deleteAction])
@@ -181,11 +183,6 @@ extension TodosViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        //
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
