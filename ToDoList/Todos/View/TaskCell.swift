@@ -22,7 +22,7 @@ final class TaskCell: UITableViewCell {
         button.configuration = config
         button.addTarget(self, action: #selector(completionButtonAction), for: .touchUpInside)
         
-       return button
+        return button
     }()
     
     @objc func completionButtonAction() {
@@ -30,9 +30,9 @@ final class TaskCell: UITableViewCell {
         delegate?.reloadData()
     }
     
-    private lazy var titleLabel = CustomLabel(size: .systemFont(ofSize: 19, weight: .bold), color: .black)
-    private lazy var dateLabel = CustomLabel(size: .systemFont(ofSize: 14), color: .gray)
-    private lazy var descriptionLabel = CustomLabel(size: .systemFont(ofSize: 14), color: .gray)
+    private lazy var titleLabel = CustomLabel(size: .systemFont(ofSize: 16, weight: .bold))
+    private lazy var descriptionLabel = CustomLabel(size: .systemFont(ofSize: 12))
+    private lazy var dateLabel = CustomLabel(size: .systemFont(ofSize: 12), color: .gray)
     
     private lazy var hStack: UIStackView = {
         let stack = UIStackView()
@@ -54,10 +54,6 @@ final class TaskCell: UITableViewCell {
         stack.distribution = .fill
         stack.alignment = .fill
         stack.spacing = 5
-        
-        stack.addArrangedSubview(titleLabel)
-        stack.addArrangedSubview(hStack)
-        
         return stack
     }()
     
@@ -81,6 +77,10 @@ final class TaskCell: UITableViewCell {
         contentView.addSubview(completedButton)
         contentView.addSubview(vStack)
         
+        vStack.addArrangedSubview(titleLabel)
+        vStack.addArrangedSubview(descriptionLabel)
+        vStack.addArrangedSubview(dateLabel)
+        
         dateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         setupConstraints()
@@ -89,7 +89,7 @@ final class TaskCell: UITableViewCell {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             completedButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            completedButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            completedButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             completedButton.widthAnchor.constraint(equalToConstant: 50),
             completedButton.heightAnchor.constraint(equalToConstant: 50),
             
@@ -103,10 +103,26 @@ final class TaskCell: UITableViewCell {
 
 extension TaskCell: TaskCellViewProtocol {
     func configureCell(title: String?, text: String?, isCompleted: Bool, date: Date?) {
-        titleLabel.text = title
+        guard let title else { return }
+    
         dateLabel.text = date?.formateDate()
         descriptionLabel.text = text
+        descriptionLabel.textColor = isCompleted ? .gray : .label
         
-        completedButton.setImage(UIImage(systemName: isCompleted ? "checkmark.circle.fill" : "circlebadge"), for: .normal)
+            if isCompleted {
+                let attributedString = NSMutableAttributedString(string: title)
+                attributedString.addAttribute(.strikethroughStyle,
+                                              value: NSUnderlineStyle.single.rawValue,
+                                              range: NSRange(location: 0, length: title.count))
+                titleLabel.attributedText = attributedString
+                titleLabel.textColor = .gray
+            } else {
+                titleLabel.attributedText = nil
+                titleLabel.text = title
+                titleLabel.textColor = .label
+            }
+        
+        completedButton.setImage(UIImage(systemName: isCompleted ? "checkmark.circle" : "circle"), for: .normal)
+        completedButton.tintColor = isCompleted ? .systemYellow : .gray
     }
 }

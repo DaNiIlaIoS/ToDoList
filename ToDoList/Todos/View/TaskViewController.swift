@@ -81,13 +81,13 @@ final class TaskViewController: UIViewController, TaskViewProtocol {
         titleTextField.text = task.title
         
         descriptionTextView.text = task.text
-        descriptionTextView.textColor = .black
+        descriptionTextView.textColor = .label
         
         saveButton.isHidden = true
     }
     
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.addSubview(titleTextField)
         view.addSubview(descriptionTextView)
         view.addSubview(saveButton)
@@ -129,14 +129,14 @@ extension TaskViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.systemGray3 {
             textView.text = nil
-            textView.textColor = .black
+            textView.textColor = .label
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "Текст"
-            textView.textColor = UIColor.lightGray
+            textView.text = "Write description for note"
+            textView.textColor = UIColor.systemGray3
         }
     }
 }

@@ -11,7 +11,7 @@ final class CustomLabel: UILabel {
     var size: UIFont
     var color: UIColor
     
-    init(size: UIFont, color: UIColor) {
+    init(size: UIFont, color: UIColor = .label) {
         self.size = size
         self.color = color
         
