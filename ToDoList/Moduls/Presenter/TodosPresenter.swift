@@ -15,7 +15,7 @@ protocol TodosPresenterProtocol: AnyObject {
     func viewDidLoaded()
     func deleteTask(at indexPath: IndexPath)
     func showTaskVC(task: Task?)
-    func task(at index: Int) -> Task
+    func fetchTasks()
     func searchTasks(with text: String)
 }
 
@@ -24,7 +24,11 @@ final class TodosPresenter {
     var interactor: TodosInteractorProtocol
     var router: TodosRouterProtocol
     
-    var allTasks: [Task] = []
+    var allTasks: [Task] = [] {
+        didSet {
+            view?.updateBottomBarCount()
+        }
+    }
     var filteredTasks: [Task] = []
     var isSearching: Bool = false
     
@@ -38,9 +42,7 @@ final class TodosPresenter {
 extension TodosPresenter: TodosPresenterProtocol {
     func viewDidLoaded() {
         interactor.getTasks()
-        allTasks = interactor.coreManager.tasks
-        filteredTasks = allTasks
-        view?.reloadData()
+        fetchTasks()
     }
     
     func deleteTask(at indexPath: IndexPath) {
@@ -58,8 +60,10 @@ extension TodosPresenter: TodosPresenterProtocol {
         router.openTaskVC(task: task)
     }
     
-    func task(at index: Int) -> Task {
-        return filteredTasks[index]
+    func fetchTasks() {
+        allTasks = interactor.coreManager.tasks
+        filteredTasks = allTasks
+        view?.reloadData()
     }
     
     func searchTasks(with text: String) {

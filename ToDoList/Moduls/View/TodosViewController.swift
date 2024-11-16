@@ -9,6 +9,7 @@ import UIKit
 
 protocol TodosViewProtocol: AnyObject {
     func reloadData()
+    func updateBottomBarCount()
 }
 
 final class TodosViewController: UIViewController {
@@ -43,7 +44,7 @@ final class TodosViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        reloadData()
+        presenter?.fetchTasks()
     }
     
     // MARK: - Private Methods
@@ -84,15 +85,9 @@ final class TodosViewController: UIViewController {
     
     private func setupBottomBar() {
         bottomBar.addButton.addTarget(self, action: #selector(createNewTask), for: .touchUpInside)
-        updateBottomBarCount()
     }
     
-    private func updateBottomBarCount() {
-        let count = presenter?.allTasks.count ?? 0
-        bottomBar.updateCount(count)
-    }
-    
-    // MARK: - Actions
+    // MARK: - Actions    
     @objc private func createNewTask() {
         presenter?.showTaskVC(task: nil)
     }
@@ -102,7 +97,11 @@ final class TodosViewController: UIViewController {
 extension TodosViewController: TodosViewProtocol {
     func reloadData() {
         tableView.reloadData()
-        updateBottomBarCount()
+    }
+    
+    func updateBottomBarCount() {
+        let count = presenter?.allTasks.count ?? 0
+        bottomBar.updateCount(count)
     }
 }
 
@@ -114,7 +113,7 @@ extension TodosViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.reuseId, for: indexPath) as? TaskCell else { return UITableViewCell() }
-        if let task = presenter?.task(at: indexPath.row) {
+        if let task = presenter?.filteredTasks[indexPath.row] {
             
             let interactor = TaskCellInteractor(taskData: task)
             let presenter = TaskCellPresenter(view: cell, interactor: interactor)
@@ -131,7 +130,7 @@ extension TodosViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension TodosViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let task = presenter?.task(at: indexPath.row)
+        let task = presenter?.filteredTasks[indexPath.row]
         presenter?.showTaskVC(task: task)
     }
     
@@ -139,7 +138,7 @@ extension TodosViewController: UITableViewDelegate {
         if editingStyle == .delete {
             presenter?.deleteTask(at: indexPath)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            updateBottomBarCount()
+            presenter?.fetchTasks()
         }
     }
     
@@ -162,6 +161,7 @@ extension TodosViewController: UITableViewDelegate {
             let deleteAction = UIAction(title: "Удалить", image: UIImage(systemName: "trash"), attributes: .destructive) { [weak self] _ in
                 self?.presenter?.deleteTask(at: indexPath)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
+                self?.presenter?.fetchTasks()
             }
             
             return UIMenu(title: "", children: [shareAction, editAction, deleteAction])
@@ -181,11 +181,6 @@ extension TodosViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        //
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
