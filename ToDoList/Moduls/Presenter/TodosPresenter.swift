@@ -44,6 +44,7 @@ extension TodosPresenter: TodosPresenterProtocol {
     func viewDidLoaded() {
         interactor.getTasks()
         fetchTasks()
+        view?.reloadData()
     }
     
     func deleteTask(at indexPath: IndexPath) {

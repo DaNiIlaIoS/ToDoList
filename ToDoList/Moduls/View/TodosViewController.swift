@@ -57,7 +57,7 @@ final class TodosViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(bottomBar)
         
-        hideKeyboardWhenTapped()
+//        hideKeyboardWhenTapped()
         setupConstraints()
         setupBottomBar()
     }
@@ -98,7 +98,6 @@ final class TodosViewController: UIViewController {
 extension TodosViewController: TodosViewProtocol {
     func reloadData() {
         tableView.reloadData()
-//        updateBottomBarCount()
     }
     
     func updateBottomBarCount() {

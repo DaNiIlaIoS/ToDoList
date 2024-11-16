@@ -66,6 +66,7 @@ final class TaskViewController: UIViewController, TaskViewProtocol {
     
     private func configTask() {
         guard let task = presenter?.getTask() else { return }
+        titleTextField.resignFirstResponder()
         
         titleTextField.text = task.title
         dateLabel.text = task.date?.formateDate()
