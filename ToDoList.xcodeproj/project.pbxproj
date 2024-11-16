@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4842D1B12CE5FC1F00A5F246 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4842D1B02CE5FC1F00A5F246 /* BottomBarView.swift */; };
 		488899122C7E28CF00672CCD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899112C7E28CF00672CCD /* AppDelegate.swift */; };
 		488899142C7E28CF00672CCD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899132C7E28CF00672CCD /* SceneDelegate.swift */; };
 		488899162C7E28CF00672CCD /* TodosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488899152C7E28CF00672CCD /* TodosViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4842D1B02CE5FC1F00A5F246 /* BottomBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarView.swift; sourceTree = "<group>"; };
 		4888990E2C7E28CF00672CCD /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		488899112C7E28CF00672CCD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		488899132C7E28CF00672CCD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				488899152C7E28CF00672CCD /* TodosViewController.swift */,
+				4842D1B02CE5FC1F00A5F246 /* BottomBarView.swift */,
 				488899422C7F2E8D00672CCD /* TaskCell.swift */,
 				488899342C7E336500672CCD /* TaskViewController.swift */,
 			);
@@ -296,6 +299,7 @@
 				488899572C80DBC100672CCD /* TaskRouter.swift in Sources */,
 				488899532C80DBA700672CCD /* TaskInteractor.swift in Sources */,
 				488899322C7E2E6800672CCD /* Todos.swift in Sources */,
+				4842D1B12CE5FC1F00A5F246 /* BottomBarView.swift in Sources */,
 				488899302C7E2AF400672CCD /* NetworkManager.swift in Sources */,
 				4888994A2C80B6F600672CCD /* TodosPresenter.swift in Sources */,
 				488899382C7E37B800672CCD /* CustomButton.swift in Sources */,
@@ -460,6 +464,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TUPKULQZ9B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoList/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ToDo;
@@ -488,6 +493,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TUPKULQZ9B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoList/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ToDo;

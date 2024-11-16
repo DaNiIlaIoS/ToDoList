@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let viewController = TodosModuleBuilder.buildModule()
         let navigationController = UINavigationController(rootViewController: viewController)
+        window?.overrideUserInterfaceStyle = .dark
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
