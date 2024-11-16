@@ -15,7 +15,6 @@ protocol TodosPresenterProtocol: AnyObject {
     func viewDidLoaded()
     func deleteTask(at indexPath: IndexPath)
     func showTaskVC(task: Task?)
-    func task(at index: Int) -> Task
     func fetchTasks()
     func searchTasks(with text: String)
 }
@@ -44,7 +43,6 @@ extension TodosPresenter: TodosPresenterProtocol {
     func viewDidLoaded() {
         interactor.getTasks()
         fetchTasks()
-        view?.reloadData()
     }
     
     func deleteTask(at indexPath: IndexPath) {
@@ -60,10 +58,6 @@ extension TodosPresenter: TodosPresenterProtocol {
     
     func showTaskVC(task: Task?) {
         router.openTaskVC(task: task)
-    }
-    
-    func task(at index: Int) -> Task {
-        return filteredTasks[index]
     }
     
     func fetchTasks() {

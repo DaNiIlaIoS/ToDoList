@@ -57,7 +57,6 @@ final class TodosViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(bottomBar)
         
-//        hideKeyboardWhenTapped()
         setupConstraints()
         setupBottomBar()
     }
@@ -114,7 +113,7 @@ extension TodosViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.reuseId, for: indexPath) as? TaskCell else { return UITableViewCell() }
-        if let task = presenter?.task(at: indexPath.row) {
+        if let task = presenter?.filteredTasks[indexPath.row] {
             
             let interactor = TaskCellInteractor(taskData: task)
             let presenter = TaskCellPresenter(view: cell, interactor: interactor)
@@ -131,7 +130,7 @@ extension TodosViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension TodosViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let task = presenter?.task(at: indexPath.row)
+        let task = presenter?.filteredTasks[indexPath.row]
         presenter?.showTaskVC(task: task)
     }
     
