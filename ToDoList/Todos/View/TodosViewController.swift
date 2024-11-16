@@ -56,8 +56,6 @@ final class TodosViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(bottomBar)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(createNewTask))
-        
         setupConstraints()
         setupBottomBar()
     }
@@ -90,7 +88,7 @@ final class TodosViewController: UIViewController {
     }
     
     private func updateBottomBarCount() {
-        let count = presenter?.didFetchTasks().count ?? 0
+        let count = presenter?.allTasks.count ?? 0
         bottomBar.updateCount(count)
     }
     
@@ -111,12 +109,12 @@ extension TodosViewController: TodosViewProtocol {
 // MARK: - UITableViewDataSource
 extension TodosViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter?.didFetchTasks().count ?? 0
+        presenter?.filteredTasks.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.reuseId, for: indexPath) as? TaskCell else { return UITableViewCell() }
-        if let task = presenter?.didFetchTasks()[indexPath.row] {
+        if let task = presenter?.task(at: indexPath.row) {
             
             let interactor = TaskCellInteractor(taskData: task)
             let presenter = TaskCellPresenter(view: cell, interactor: interactor)
@@ -133,7 +131,7 @@ extension TodosViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension TodosViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let task = presenter?.didFetchTasks()[indexPath.row]
+        let task = presenter?.task(at: indexPath.row)
         presenter?.showTaskVC(task: task)
     }
     
@@ -147,7 +145,7 @@ extension TodosViewController: UITableViewDelegate {
     
     // Реализация Context Menu
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        guard let task = presenter?.didFetchTasks()[indexPath.row] else { return UIContextMenuConfiguration() }
+        guard let task = presenter?.allTasks[indexPath.row] else { return UIContextMenuConfiguration() }
         
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: nil) { _ in
             // Создание меню
@@ -188,5 +186,9 @@ extension TodosViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         //
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        presenter?.searchTasks(with: searchText)
     }
 }

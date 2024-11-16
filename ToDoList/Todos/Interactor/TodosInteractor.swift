@@ -11,6 +11,7 @@ protocol TodosInteractorProtocol: AnyObject {
     var coreManager: CoreDataManagerProtocol { get }
     
     func getTasks()
+    func searchTasks(with text: String) -> [Task]
     func deleteTask(at index: Int)
 }
 
@@ -43,6 +44,20 @@ final class TodosInteractor: TodosInteractorProtocol {
             }
         } else {
             coreManager.fetchTask()
+        }
+    }
+    
+    func searchTasks(with text: String) -> [Task] {
+        let searchText = text.lowercased()
+        
+        if text.isEmpty {
+            return coreManager.tasks
+        } else {
+            return coreManager.tasks.filter { task in
+                let titleContainsText = task.title?.lowercased().contains(searchText) ?? false
+                let descriptionContainsText = task.text?.lowercased().contains(searchText) ?? false
+                return titleContainsText || descriptionContainsText
+            }
         }
     }
     
