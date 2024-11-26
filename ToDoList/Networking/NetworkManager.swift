@@ -13,7 +13,13 @@ protocol NetworkManagerProtocol: AnyObject {
 
 final class NetworkManager: NetworkManagerProtocol {
     func getTodos(completion: @escaping (Result<[ApiTask], Error>) -> ()) {
-        guard let url = URL(string: "https://dummyjson.com/todos") else { return }
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "dummyjson.com"
+        components.path = "/todos"
+        
+        guard let url = components.url else { return }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
